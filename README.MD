@@ -24,8 +24,9 @@
         -   `OpenCV`: 영상 처리 및 웹캠 제어
         -   `ultralytics`: YOLOv8 객체 탐지 프레임워크
         -   `pyserial`: STM32와의 시리얼 통신
-        -   `Flask`: 웹 스트리밍 및 API 서버 (예정)
-    -   **HTML/CSS/JavaScript:** 웹 제어 인터페이스
+        -   `Flask`: MJPEG 스트리밍 서버 (`mjpg_stream.py`)
+    -   **Node.js:** 웹 서버 및 API 처리 (`app.js`)
+    -   **HTML/CSS/JavaScript:** 웹 제어 인터페이스 (`pan_tilt_web_interface.html`)
     -   **C (STM32 펌웨어):** 서보모터 제어 로직
 
 ## 설치 및 실행
@@ -62,10 +63,23 @@ python yolo_pan_tilt_tracker.py
 python yolo_pan_tilt_tracker.py --class_id 0
 ```
 
-#### 4.2. 웹 인터페이스 실행 (Flask 서버 필요)
+#### 4.2. 웹 인터페이스 실행 (Node.js 서버 및 MJPG 스트리머 필요)
 
-웹 인터페이스 (`pan_tilt_web_interface.html`)를 사용하려면 Flask 서버가 웹캠 스트리밍과 팬틸트 제어 API를 제공해야 합니다. Flask 서버를 먼저 실행한 후 웹 브라우저에서 `pan_tilt_web_interface.html` 파일을 엽니다.
+웹 인터페이스 (`pan_tilt_web_interface.html`)를 사용하려면 Node.js 서버와 MJPG 스트리머가 필요합니다.
+
+1.  **Node.js 서버 실행:**
+    `app.js` 파일을 실행하여 웹 서버를 시작합니다.
+    ```bash
+    node app.js
+    ```
+2.  **MJPG 스트리머 실행:**
+    웹캠 영상을 스트리밍하기 위해 `mjpg_stream.py` 스크립트를 실행합니다.
+    ```bash
+    python mjpg_stream.py
+    ```
+3.  **웹 인터페이스 접속:**
+    Node.js 서버와 MJPG 스트리머가 실행 중인 상태에서 웹 브라우저를 열고 `pan_tilt_web_interface.html` 파일을 엽니다. 이 HTML 파일은 Node.js 서버와 연동하여 팬틸트를 제어하고 `mjpg_stream.py`에서 제공하는 실시간 웹캠 영상을 표시합니다.
 
 ## 기여
 
-이 프로젝트는 지속적으로 개선될 수 있습니다. 
+이 프로젝트는 지속적으로 개선될 수 있습니다. 기여를 환영합니다.
