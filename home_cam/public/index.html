@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>팬틸트 제어 웹 인터페이스 (Minimal)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f8f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #555;
+      margin-bottom: 20px;
+      font-size: 2.2em;
+      text-align: center;
+    }
+
+    p {
+      color: #777;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .section-box {
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .video-box img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 90px);
+      grid-template-rows: repeat(3, 50px);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .control-grid button {
+      width: 100%;
+      height: 100%;
+      font-size: 1em;
+      font-weight: bold;
+      color: #555;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .control-grid button:hover {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .control-grid button:active {
+      background-color: #d0d0d0;
+    }
+
+    .control-grid button.init-button {
+      background-color: #e6f7ff;
+      color: #3498db;
+      border-color: #a0d9ff;
+    }
+
+    .control-grid button.init-button:hover {
+      background-color: #cceeff;
+      color: #2980b9;
+    }
+
+    .control-grid div {
+      visibility: hidden;
+    }
+
+    #status-message {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #666;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      .control-grid {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(3, 45px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>팬틸트 제어 시스템</h1>
+    <p>간결한 웹 인터페이스를 통한 실시간 모니터링 및 원격 제어</p>
+  </header>
+
+  <main class="container">
+    <section class="section-box video-box">
+      <h2>실시간 영상</h2>
+      <img id="webcam-stream" src="http://10.10.20.51:5000/video_feed" alt="Webcam Stream" width="320" height="240">
+    </section>
+
+    <section class="section-box">
+      <h2>제어 패널</h2>
+      <div class="control-grid">
+        <div></div>
+        <button onclick="sendCommand('/up')" aria-label="틸트 위로">▲</button>
+        <div></div>
+
+        <button onclick="sendCommand('/left')" aria-label="팬 왼쪽으로">◀</button>
+        <button onclick="sendCommand('/init')" class="init-button" aria-label="초기 위치로">◎</button>
+        <button onclick="sendCommand('/right')" aria-label="팬 오른쪽으로">▶</button>
+
+        <div></div>
+        <button onclick="sendCommand('/down')" aria-label="틸트 아래로">▼</button>
+        <div></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="status-message"></div>
+
+  <script>
+    function sendCommand(endpoint) {
+      fetch(endpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          console.log("Command sent:", endpoint);
+          document.getElementById('status-message').innerText = `명령 전송 성공: ${endpoint}`;
+        })
+        .catch(error => {
+          console.error("Error sending command:", endpoint, error);
+          document.getElementById('status-message').innerText = `명령 전송 실패: ${endpoint} - ${error}`;
+        });
+    }
+
+    document.getElementById('webcam-stream').onerror = function() {
+      document.getElementById('status-message').innerText = '웹캠 스트림 로딩 실패. 서버가 실행 중인지 확인하세요.';
+      this.src = 'placeholder_image.png';
+    };
+  </script>
+</body>
+</html>
