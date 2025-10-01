@@ -26,7 +26,7 @@
         -   `pyserial`: STM32와의 시리얼 통신
         -   `Flask`: MJPEG 스트리밍 서버 (`mjpg_stream.py`)
     -   **Node.js:** 웹 서버 및 API 처리 (`app.js`)
-    -   **HTML/CSS/JavaScript:** 웹 제어 인터페이스 (`pan_tilt_web_interface.html`)
+    -   **HTML/CSS/JavaScript:** 웹 제어 인터페이스 (`public/index.html` - Node.js에서 제공)
     -   **C (STM32 펌웨어):** 서보모터 제어 로직
 
 ## 설치 및 실행
@@ -78,7 +78,7 @@ python yolo_pan_tilt_tracker.py --class_id 0
     python mjpg_stream.py
     ```
 3.  **웹 인터페이스 접속:**
-    Node.js 서버와 MJPG 스트리머가 실행 중인 상태에서 웹 브라우저를 열고 `pan_tilt_web_interface.html` 파일을 엽니다. 이 HTML 파일은 Node.js 서버와 연동하여 팬틸트를 제어하고 `mjpg_stream.py`에서 제공하는 실시간 웹캠 영상을 표시합니다.
+    Node.js 서버와 MJPG 스트리머가 실행 중인 상태에서 웹 브라우저를 열고 `http://localhost:3000`으로 접속합니다. `public/index.html` 파일이 Node.js 서버를 통해 제공되며, 이 인터페이스를 통해 팬틸트를 제어하고 `mjpg_stream.py`에서 제공하는 실시간 웹캠 영상을 확인할 수 있습니다.
 
 ## 기여
 
