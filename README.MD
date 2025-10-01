@@ -80,6 +80,5 @@ python yolo_pan_tilt_tracker.py --class_id 0
 3.  **웹 인터페이스 접속:**
     Node.js 서버와 MJPG 스트리머가 실행 중인 상태에서 웹 브라우저를 열고 `http://localhost:3000`으로 접속합니다. `public/index.html` 파일이 Node.js 서버를 통해 제공되며, 이 인터페이스를 통해 팬틸트를 제어하고 `mjpg_stream.py`에서 제공하는 실시간 웹캠 영상을 확인할 수 있습니다.
 
-## 기여
-
-이 프로젝트는 지속적으로 개선될 수 있습니다. 
+## img
+<img src = "https://github.com/doriko114-afk/homecam/blob/master/img/homecam.png">
